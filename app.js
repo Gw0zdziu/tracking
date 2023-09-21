@@ -10,20 +10,12 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-function handlePermissionLocation() {
-    navigator.permissions.query({name: "geolocation"}).then((result) => {
-        if (result.state === 'granted'){
-            if (!navigator.geolocation){
-                window.alert('Brak obsługi geolokalizacji')
-            } else {
-                navigator.geolocation.watchPosition(getPosition, null, options)
-            }
-        } else if (result.state === 'denied'){
-            window.alert('Brak uprawień do śledzenia geolokalizacji')
-        }
-    })
-}
 
+if (!navigator.geolocation){
+    window.alert('Brak obsługi geolokalizacji')
+} else {
+    navigator.geolocation.watchPosition(getPosition, null, options)
+}
 
 function getPosition(pos){
     console.log(pos.coords)
