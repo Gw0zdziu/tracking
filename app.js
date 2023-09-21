@@ -32,7 +32,7 @@ function getPosition(pos){
     circle = L.circle([lat, long], {radius: accuracy})
     var featureGroup = L.featureGroup([marker]).addTo(map);
     map.fitBounds(featureGroup.getBounds())
-    navigator.geolocation.clearWatch(id)
+    console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
 }
 
 
