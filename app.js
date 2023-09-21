@@ -17,11 +17,9 @@ if (!navigator.geolocation){
 }
 
 function getPosition(pos){
-    const cord = document.getElementById('cord')
     var lat = pos.coords.latitude;
     var long = pos.coords.longitude;
     var accuracy = pos.coords.accuracy;
-    cord.textContent = `lat: ${lat}, long: ${long}, accuracy: ${accuracy}`;
     if (marker) {
         map.removeLayer(marker);
     }
@@ -30,9 +28,8 @@ function getPosition(pos){
     }
     marker = L.marker([lat, long])
     circle = L.circle([lat, long], {radius: accuracy})
-    var featureGroup = L.featureGroup([marker]).addTo(map);
+    var featureGroup = L.featureGroup([marker, circle]).addTo(map);
     map.fitBounds(featureGroup.getBounds())
-    console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
 }
 
 
