@@ -6,16 +6,24 @@ var options = {
     maximumAge: 0,
 };
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    minZoom: 3,
-    attribution: '© OpenStreetMap',
-    noWrap: true
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
 }).addTo(map);
 
-if (!navigator.geolocation){
-    window.alert('Brak obsługi geolokalizacji')
-} else {
-    navigator.geolocation.watchPosition(getPosition, null, options)
+function handlePermissionLocation() {
+    navigator.permissions.query({name: "geolocation"}).then((result) => {
+        if (result.state === 'granted'){
+            if (!navigator.geolocation){
+                window.alert('Brak obsługi geolokalizacji')
+            } else {
+                navigator.geolocation.watchPosition(getPosition, null, options)
+            }
+        } else if (result.state === 'denied'){
+            window.alert('Brak uprawień do śledzenia geolokalizacji')
+        }
+    })
 }
+
 
 function getPosition(pos){
     console.log(pos.coords)
