@@ -15,9 +15,11 @@ if (!navigator.geolocation){
 }
 
 function getPosition(pos){
+    const id = document.getElementById('cord')
     var lat = pos.coords.latitude;
     var long = pos.coords.longitude;
     var accuracy = pos.coords.accuracy;
+    id.textContent = `lat: ${lat}, long: ${long}, accuracy: ${accuracy}`;
     if (marker) {
         map.removeLayer(marker);
     }
