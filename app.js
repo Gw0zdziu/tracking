@@ -22,7 +22,7 @@ function handlePermissionLocation() {
             window.alert('Brak uprawnień do śledzenia geolokalizacji')
         }
     })
-        .catch((error) => {
+        .catch(() => {
             window.alert('Błąd z uprawnieniami geolokalizacji')
         })
 }
