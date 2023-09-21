@@ -6,7 +6,7 @@ var options = {
     maximumAge: 0,
 };
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    minZoom: 2,
+    minZoom: 3,
     attribution: '© OpenStreetMap',
     noWrap: true,
 }).addTo(map);
