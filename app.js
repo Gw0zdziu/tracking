@@ -10,13 +10,25 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-if (!navigator.geolocation){
-    alert('Brak obsługi geolokalizacji')
-} else {
-    var id = navigator.geolocation.watchPosition(getPosition, null, options)
+function handlePermissionLocation() {
+    navigator.permissions.query({name: "geolocation"}).then((result) => {
+        if (result.state === 'granted'){
+            if (navigator.geolocation){
+                navigator.geolocation.watchPosition(getPosition, null, options)
+            } else {
+                window.alert('Brak wsparcia geolokalizacji')
+            }
+        } else if (result.state === 'denied'){
+            window.alert('Brak uprawnień do śledzenia geolokalizacji')
+        }
+    })
+        .catch((error) => {
+            window.alert('Błąd z uprawnieniami geolokalizacji')
+        })
 }
 
 function getPosition(pos){
+    console.log(pos.coords)
     var lat = pos.coords.latitude;
     var long = pos.coords.longitude;
     var accuracy = pos.coords.accuracy;
@@ -31,6 +43,8 @@ function getPosition(pos){
     var featureGroup = L.featureGroup([marker, circle]).addTo(map);
     map.fitBounds(featureGroup.getBounds())
 }
+
+handlePermissionLocation()
 
 
 
