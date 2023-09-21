@@ -1,6 +1,10 @@
 var map = L.map('map').fitWorld();
 var marker, circle;
-
+var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0,
+};
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '© OpenStreetMap'
@@ -9,17 +13,15 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 if (!navigator.geolocation){
     alert('Brak obsługi geolokalizacji')
 } else {
-    setInterval(() => {
-        navigator.geolocation.getCurrentPosition(getPosition)
-    }, 5000)
+    var id = navigator.geolocation.watchPosition(getPosition, null, options)
 }
 
 function getPosition(pos){
-    const id = document.getElementById('cord')
+    const cord = document.getElementById('cord')
     var lat = pos.coords.latitude;
     var long = pos.coords.longitude;
     var accuracy = pos.coords.accuracy;
-    id.textContent = `lat: ${lat}, long: ${long}, accuracy: ${accuracy}`;
+    cord.textContent = `lat: ${lat}, long: ${long}, accuracy: ${accuracy}`;
     if (marker) {
         map.removeLayer(marker);
     }
@@ -30,6 +32,7 @@ function getPosition(pos){
     circle = L.circle([lat, long], {radius: accuracy})
     var featureGroup = L.featureGroup([marker]).addTo(map);
     map.fitBounds(featureGroup.getBounds())
+    navigator.geolocation.clearWatch(id)
 }
 
 
